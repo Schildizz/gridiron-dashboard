@@ -1,0 +1,715 @@
+{
+  "players": [
+    {
+      "name": "Cyrus Allen",
+      "number": "13",
+      "position": "WR",
+      "college": "Cincinnati",
+      "height": "5' 11\"",
+      "weight": "180 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Andrew Armstrong",
+      "number": "85",
+      "position": "WR",
+      "college": "Arkansas",
+      "height": "6' 4\"",
+      "weight": "210 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Kahlil Benson",
+      "number": "70",
+      "position": "OT",
+      "college": "Indiana",
+      "height": "6' 6\"",
+      "weight": "319 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jake Briningstool",
+      "number": "88",
+      "position": "TE",
+      "college": "Clemson",
+      "height": "6' 6\"",
+      "weight": "240 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Mike Caliendo",
+      "number": "66",
+      "position": "G",
+      "college": "Western Michigan",
+      "height": "6' 4\"",
+      "weight": "301 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Joshua Ezeudu",
+      "number": "73",
+      "position": "G",
+      "college": "North Carolina",
+      "height": "6' 4\"",
+      "weight": "308 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Justin Fields",
+      "number": "6",
+      "position": "QB",
+      "college": "Ohio State",
+      "height": "6' 3\"",
+      "weight": "227 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Noah Gray",
+      "number": "83",
+      "position": "TE",
+      "college": "Duke",
+      "height": "6' 3\"",
+      "weight": "240 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Creed Humphrey",
+      "number": "52",
+      "position": "C",
+      "college": "Oklahoma",
+      "height": "6' 4\"",
+      "weight": "302 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Emmett Johnson",
+      "number": "10",
+      "position": "RB",
+      "college": "Nebraska",
+      "height": "5' 11\"",
+      "weight": "200 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Travis Kelce",
+      "number": "87",
+      "position": "TE",
+      "college": "Cincinnati",
+      "height": "6' 5\"",
+      "weight": "250 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Patrick Mahomes",
+      "number": "15",
+      "position": "QB",
+      "college": "Texas Tech",
+      "height": "6' 2\"",
+      "weight": "225 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jaylon Moore",
+      "number": "77",
+      "position": "OT",
+      "college": "Western Michigan",
+      "height": "6' 4\"",
+      "weight": "311 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Hunter Nourzad",
+      "number": "64",
+      "position": "C",
+      "college": "Penn State",
+      "height": "6' 3\"",
+      "weight": "317 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Garrett Nussmeier",
+      "number": "19",
+      "position": "QB",
+      "college": "LSU",
+      "height": "6' 1\"",
+      "weight": "205 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jaydn Ott",
+      "number": "34",
+      "position": "RB",
+      "college": "Oklahoma",
+      "height": "5' 11\"",
+      "weight": "208 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Diego Pounds",
+      "number": "61",
+      "position": "OT",
+      "college": "Ole Miss",
+      "height": "6' 6\"",
+      "weight": "330 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Nikko Remigio",
+      "number": "81",
+      "position": "WR",
+      "college": "Fresno State",
+      "height": "5' 9\"",
+      "weight": "187 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Rashee Rice",
+      "number": "4",
+      "position": "WR",
+      "college": "SMU",
+      "height": "6' 1\"",
+      "weight": "204 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jalen Royals",
+      "number": "11",
+      "position": "WR",
+      "college": "Utah State",
+      "height": "6' 0\"",
+      "weight": "195 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Trey Smith",
+      "number": "65",
+      "position": "G",
+      "college": "Tennessee",
+      "height": "6' 6\"",
+      "weight": "321 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Kingsley Suamataia",
+      "number": "76",
+      "position": "OT",
+      "college": "BYU",
+      "height": "6' 4\"",
+      "weight": "326 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Ben VanSumeren",
+      "number": "47",
+      "position": "FB",
+      "college": "Michigan State",
+      "height": "6' 2\"",
+      "weight": "250 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Kenneth Walker III",
+      "number": "9",
+      "position": "RB",
+      "college": "Michigan State",
+      "height": "5' 9\"",
+      "weight": "211 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Justin Watson",
+      "number": "84",
+      "position": "WR",
+      "college": "Pennsylvania",
+      "height": "6' 2\"",
+      "weight": "215 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jared Wiley",
+      "number": "12",
+      "position": "TE",
+      "college": "TCU",
+      "height": "6' 6\"",
+      "weight": "249 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Xavier Worthy",
+      "number": "1",
+      "position": "WR",
+      "college": "Texas",
+      "height": "5' 11\"",
+      "weight": "165 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Felix Anudike-Uzomah",
+      "number": "91",
+      "position": "DE",
+      "college": "Kansas State",
+      "height": "6' 4\"",
+      "weight": "255 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jeffrey Bassa",
+      "number": "31",
+      "position": "LB",
+      "college": "Oregon",
+      "height": "6' 2\"",
+      "weight": "235 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Nick Bolton",
+      "number": "32",
+      "position": "LB",
+      "college": "Missouri",
+      "height": "5' 11\"",
+      "weight": "237 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jadon Canady",
+      "number": "22",
+      "position": "CB",
+      "college": "Oregon",
+      "height": "5' 11\"",
+      "weight": "185 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Cole Christiansen",
+      "number": "48",
+      "position": "LB",
+      "college": "Army",
+      "height": "6' 1\"",
+      "weight": "230 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jack Cochrane",
+      "number": "43",
+      "position": "LB",
+      "college": "South Dakota",
+      "height": "6' 3\"",
+      "weight": "236 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Chamarri Conner",
+      "number": "27",
+      "position": "S",
+      "college": "Virginia Tech",
+      "height": "6' 0\"",
+      "weight": "202 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Mansoor Delane",
+      "number": "5",
+      "position": "CB",
+      "college": "LSU",
+      "height": "6' 0\"",
+      "weight": "190 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Bryson Eason",
+      "number": "94",
+      "position": "DT",
+      "college": "Tennessee",
+      "height": "6' 3\"",
+      "weight": "315 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Kristian Fulton",
+      "number": "8",
+      "position": "CB",
+      "college": "LSU",
+      "height": "5' 11\"",
+      "weight": "197 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Ashton Gillotte",
+      "number": "97",
+      "position": "DE",
+      "college": "Louisville",
+      "height": "6' 3\"",
+      "weight": "270 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Alohi Gilman",
+      "number": "17",
+      "position": "S",
+      "college": "Notre Dame",
+      "height": "5' 10\"",
+      "weight": "201 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Marcus Harris",
+      "number": "96",
+      "position": "DT",
+      "college": "Auburn",
+      "height": "6' 3\"",
+      "weight": "295 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jaden Hicks",
+      "number": "21",
+      "position": "S",
+      "college": "Washington State",
+      "height": "6' 1\"",
+      "weight": "215 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Chris Jones",
+      "number": "95",
+      "position": "DT",
+      "college": "Mississippi State",
+      "height": "6' 6\"",
+      "weight": "310 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "George Karlaftis",
+      "number": "56",
+      "position": "DE",
+      "college": "Purdue",
+      "height": "6' 4\"",
+      "weight": "263 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Cooper McDonald",
+      "number": "44",
+      "position": "LB",
+      "college": "TCU",
+      "height": "6' 3\"",
+      "weight": "240 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Xavier Nwankpa",
+      "number": "29",
+      "position": "S",
+      "college": "Iowa",
+      "height": "6' 2\"",
+      "weight": "213 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jack Pyburn",
+      "number": "54",
+      "position": "LB",
+      "college": "LSU",
+      "height": "6' 4\"",
+      "weight": "258 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Chris Roland-Wallace",
+      "number": "30",
+      "position": "CB",
+      "college": "USC",
+      "height": "5' 11\"",
+      "weight": "202 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Melvin Smith Jr.",
+      "number": "39",
+      "position": "CB",
+      "college": "Southern Arkansas",
+      "height": "6' 1\"",
+      "weight": "185 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "R Mason Thomas",
+      "number": "51",
+      "position": "DE",
+      "college": "Oklahoma",
+      "height": "6' 2\"",
+      "weight": "249 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Khyiris Tonga",
+      "number": "92",
+      "position": "DT",
+      "college": "BYU",
+      "height": "6' 2\"",
+      "weight": "335 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Drue Tranquill",
+      "number": "23",
+      "position": "LB",
+      "college": "Notre Dame",
+      "height": "6' 2\"",
+      "weight": "234 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Nohl Williams",
+      "number": "20",
+      "position": "CB",
+      "college": "California",
+      "height": "6' 1\"",
+      "weight": "200 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Peter Woods",
+      "number": "99",
+      "position": "DT",
+      "college": "Clemson",
+      "height": "6' 3\"",
+      "weight": "310 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Matt Araiza",
+      "number": "14",
+      "position": "P",
+      "college": "San Diego State",
+      "height": "6' 1\"",
+      "weight": "200 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Harrison Butker",
+      "number": "7",
+      "position": "PK",
+      "college": "Georgia Tech",
+      "height": "6' 4\"",
+      "weight": "205 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "James Winchester",
+      "number": "41",
+      "position": "LS",
+      "college": "Oklahoma",
+      "height": "6' 3\"",
+      "weight": "240 lbs",
+      "status": "Active"
+    },
+    {
+      "name": "Jeff Caldwell",
+      "number": "8",
+      "position": "WR",
+      "college": "Cincinnati",
+      "height": "6' 5\"",
+      "weight": "215 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Ethan Downs",
+      "number": "40",
+      "position": "LB",
+      "college": "Oklahoma",
+      "height": "6' 4\"",
+      "weight": "263 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "John Michael Gyllenborg",
+      "number": "84",
+      "position": "TE",
+      "college": "Wyoming",
+      "height": "6' 5\"",
+      "weight": "251 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Jimmy Holiday",
+      "number": "82",
+      "position": "WR",
+      "college": "Louisiana Tech",
+      "height": "6' 1\"",
+      "weight": "211 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Omarr Norman-Lott",
+      "number": "55",
+      "position": "DT",
+      "college": "Tennessee",
+      "height": "6' 3\"",
+      "weight": "315 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Josh Simmons",
+      "number": "71",
+      "position": "OT",
+      "college": "Ohio State",
+      "height": "6' 5\"",
+      "weight": "310 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Brashard Smith",
+      "number": "24",
+      "position": "RB",
+      "college": "SMU",
+      "height": "5' 10\"",
+      "weight": "196 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "L'Jarius Sneed",
+      "number": "38",
+      "position": "CB",
+      "college": "Louisiana Tech",
+      "height": "6' 1\"",
+      "weight": "192 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Tyquan Thornton",
+      "number": "2",
+      "position": "WR",
+      "college": "Baylor",
+      "height": "6' 2\"",
+      "weight": "185 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Matt Waletzko",
+      "number": "73",
+      "position": "OT",
+      "college": "North Dakota",
+      "height": "6' 8\"",
+      "weight": "305 lbs",
+      "status": "Day-To-Day"
+    },
+    {
+      "name": "Nate Carter",
+      "number": "35",
+      "position": "RB",
+      "college": "Michigan State",
+      "height": "5' 10\"",
+      "weight": "202 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Jacob De Jesus",
+      "number": "80",
+      "position": "WR",
+      "college": "California",
+      "height": "5' 7\"",
+      "weight": "170 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Ethan Driskell",
+      "number": "75",
+      "position": "OT",
+      "college": "Marshall",
+      "height": "6' 8\"",
+      "weight": "313 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Omari Evans",
+      "number": "7",
+      "position": "WR",
+      "college": "Washington",
+      "height": "6' 0\"",
+      "weight": "195 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Aiden Fisher",
+      "number": "--",
+      "position": "LB",
+      "college": "Indiana",
+      "height": "6' 1\"",
+      "weight": "231 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Michael Heldman",
+      "number": "--",
+      "position": "LB",
+      "college": "Central Michigan",
+      "height": "6' 3\"",
+      "weight": "268 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Bub Means",
+      "number": "--",
+      "position": "WR",
+      "college": "Pittsburgh",
+      "height": "6' 2\"",
+      "weight": "215 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Pete Nygra",
+      "number": "50",
+      "position": "OT",
+      "college": "Louisville",
+      "height": "6' 4\"",
+      "weight": "300 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Emmanuel Ogbah",
+      "number": "50",
+      "position": "DE",
+      "college": "Oklahoma State",
+      "height": "6' 4\"",
+      "weight": "275 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "D'Arco Perkins-McAllister",
+      "number": "19",
+      "position": "CB",
+      "college": "UL Monroe",
+      "height": "6' 1\"",
+      "weight": "195 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "DeShon Singleton",
+      "number": "25",
+      "position": "S",
+      "college": "Nebraska",
+      "height": "6' 3\"",
+      "weight": "210 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Tyreke Smith",
+      "number": "57",
+      "position": "DE",
+      "college": "Ohio State",
+      "height": "6' 3\"",
+      "weight": "255 lbs",
+      "status": "Practice Squad"
+    },
+    {
+      "name": "Justin Tucker",
+      "number": "--",
+      "position": "PK",
+      "college": "Texas",
+      "height": "6' 1\"",
+      "weight": "191 lbs",
+      "status": "Practice Squad"
+    }
+  ]
+}

@@ -2,6 +2,45 @@
 esphome:
   name: chiefs-dashboard
   friendly_name: Chiefs Command Center
+  on_boot:
+    - priority: 600
+      then:
+        - lambda: |-
+            // Roster liegt lokal im Firmware-Image; kein HTTP-Download erforderlich.
+            json::parse_json(std::string(chiefs_roster_json), [](JsonObject root) -> bool {
+              JsonArray players = root["players"].as<JsonArray>();
+              if (players.isNull()) {
+                ESP_LOGE("roster", "Lokale Roster-JSON ist ungueltig: players fehlt");
+                return false;
+              }
+
+              id(roster_names).clear();
+              id(roster_numbers).clear();
+              id(roster_positions).clear();
+              id(roster_colleges).clear();
+              id(roster_heights).clear();
+              id(roster_weights).clear();
+              id(roster_statuses).clear();
+
+              for (JsonObject player : players) {
+                id(roster_names).push_back(player["name"] | "Unknown Player");
+                id(roster_numbers).push_back(player["number"] | "--");
+                id(roster_positions).push_back(player["position"] | "--");
+                id(roster_colleges).push_back(player["college"] | "College n/a");
+                id(roster_heights).push_back(player["height"] | "--");
+                id(roster_weights).push_back(player["weight"] | "--");
+                id(roster_statuses).push_back(player["status"] | "Unknown");
+              }
+
+              id(roster_count) = id(roster_names).size();
+              id(roster_selected) = 0;
+              id(roster_loaded) = id(roster_count) > 0;
+              ESP_LOGI("roster", "Lokaler Chiefs-Roster geladen: %d Spieler", id(roster_count));
+              return id(roster_loaded);
+            });
+  includes:
+    - <vector>
+    - chiefs_roster.h
 
 esp32:
   variant: esp32s3
@@ -360,6 +399,38 @@ globals:
     type: bool
     initial_value: 'false'
 
+  # Lokaler Chiefs-Kader aus chiefs_roster.h
+  - id: roster_names
+    type: std::vector<std::string>
+    initial_value: 'std::vector<std::string>()'
+  - id: roster_numbers
+    type: std::vector<std::string>
+    initial_value: 'std::vector<std::string>()'
+  - id: roster_positions
+    type: std::vector<std::string>
+    initial_value: 'std::vector<std::string>()'
+  - id: roster_colleges
+    type: std::vector<std::string>
+    initial_value: 'std::vector<std::string>()'
+  - id: roster_heights
+    type: std::vector<std::string>
+    initial_value: 'std::vector<std::string>()'
+  - id: roster_weights
+    type: std::vector<std::string>
+    initial_value: 'std::vector<std::string>()'
+  - id: roster_statuses
+    type: std::vector<std::string>
+    initial_value: 'std::vector<std::string>()'
+  - id: roster_selected
+    type: int
+    initial_value: '0'
+  - id: roster_count
+    type: int
+    initial_value: '0'
+  - id: roster_loaded
+    type: bool
+    initial_value: 'false'
+
 spi:
   - id: lcd_spi
     clk_pin: GPIO48
@@ -439,14 +510,24 @@ touchscreen:
               return;
             }
 
-            // Horizontal wischen: durch die vier Hauptseiten navigieren.
+            // Auf der Jersey-Seite wechseln horizontale Swipes den Spieler.
+            if (id(dashboard_page) == 4 && abs(delta_x) >= 55 && abs(delta_x) > abs(delta_y)) {
+              if (id(roster_count) > 0) {
+                if (delta_x < 0) id(roster_selected) = (id(roster_selected) + 1) % id(roster_count);
+                else id(roster_selected) = (id(roster_selected) + id(roster_count) - 1) % id(roster_count);
+              }
+              id(tft_display).update();
+              return;
+            }
+
+            // Horizontal wischen: durch die fünf Hauptseiten navigieren.
             if (abs(delta_x) >= 80 && abs(delta_x) > abs(delta_y)) {
-              if (id(dashboard_page) == 4) {
+              if (id(dashboard_page) == 5) {
                 id(dashboard_page) = 1;
               } else if (delta_x < 0) {
-                id(dashboard_page) = (id(dashboard_page) + 1) % 4;
+                id(dashboard_page) = (id(dashboard_page) + 1) % 5;
               } else {
-                id(dashboard_page) = (id(dashboard_page) + 3) % 4;
+                id(dashboard_page) = (id(dashboard_page) + 4) % 5;
               }
               id(tft_display).update();
               return;
@@ -458,15 +539,26 @@ touchscreen:
               int y = id(touch_last_y);
               if (x >= 20 && x <= 460 && y >= 132 && y <= 218) {
                 id(nfl_selected_news) = 0;
-                id(dashboard_page) = 4;
+                id(dashboard_page) = 5;
               } else if (x >= 20 && x <= 460 && y >= 230 && y <= 308) {
                 id(nfl_selected_news) = 1;
-                id(dashboard_page) = 4;
+                id(dashboard_page) = 5;
               } else if (x >= 20 && x <= 460 && y >= 320 && y <= 398) {
                 id(nfl_selected_news) = 2;
-                id(dashboard_page) = 4;
+                id(dashboard_page) = 5;
               }
             } else if (id(dashboard_page) == 4) {
+              // Untere Pfeilfelder als Alternative zum Wischen.
+              int x = id(touch_last_x);
+              int y = id(touch_last_y);
+              if (y < 90) {
+                id(dashboard_page) = 0;
+              } else if (y >= 390 && x < 150 && id(roster_count) > 0) {
+                id(roster_selected) = (id(roster_selected) + id(roster_count) - 1) % id(roster_count);
+              } else if (y >= 390 && x > 330 && id(roster_count) > 0) {
+                id(roster_selected) = (id(roster_selected) + 1) % id(roster_count);
+              }
+            } else if (id(dashboard_page) == 5) {
               id(dashboard_page) = 1;
             }
             id(tft_display).update();
@@ -730,6 +822,9 @@ script:
             then:
               - logger.log: "NFL News API nicht erreichbar"
 
+
+      # Chiefs-Roster wird lokal beim Boot geladen (siehe chiefs_roster.h).
+
 # ==========================================
 # AUTOMATISCHE AKTUALISIERUNG
 # ==========================================
@@ -955,6 +1050,51 @@ display:
         it.printf(240, 466, id(font_tiny), muted, TextAlign::CENTER, "FC BAYERN MUNICH STADIUM  |  GERMANY");
 
       } else if (id(dashboard_page) == 4) {
+        // SEITE 5: CHIEFS ROSTER - Jersey wird direkt aus Display-Primitiven gezeichnet
+        it.fill(black);
+        it.filled_rectangle(0, 0, 480, 82, dark_red);
+        it.line(18, 82, 462, 82, gold);
+        it.printf(240, 10, id(font_large), white, TextAlign::TOP_CENTER, "CHIEFS ROSTER");
+        it.printf(240, 52, id(font_tiny), gold, TextAlign::TOP_CENTER, "PLAYER JERSEY  |  2026 SEASON");
+
+        if (id(roster_loaded) && id(roster_selected) < id(roster_count)) {
+          const int idx = id(roster_selected);
+          const std::string player_name = id(roster_names)[idx];
+          const std::string number = id(roster_numbers)[idx];
+          const std::string position = id(roster_positions)[idx];
+          const std::string college = id(roster_colleges)[idx];
+          const std::string height = id(roster_heights)[idx];
+          const std::string weight = id(roster_weights)[idx];
+          const std::string status = id(roster_statuses)[idx];
+
+          // Jersey-Silhouette mit Chiefs-Rot, weissen Streifen und goldenen Akzenten.
+          it.filled_rectangle(145, 112, 190, 218, chiefs_red);
+          it.filled_rectangle(91, 116, 65, 92, chiefs_red);
+          it.filled_rectangle(324, 116, 65, 92, chiefs_red);
+          it.filled_rectangle(91, 116, 65, 16, white);
+          it.filled_rectangle(324, 116, 65, 16, white);
+          it.filled_rectangle(145, 112, 190, 15, white);
+          it.filled_rectangle(145, 315, 190, 15, white);
+          it.filled_rectangle(145, 112, 12, 218, gold);
+          it.filled_rectangle(323, 112, 12, 218, gold);
+          it.filled_rectangle(206, 112, 68, 24, black);
+          it.printf(240, 151, id(font_clock), white, TextAlign::TOP_CENTER, "%s", number.c_str());
+          it.printf(240, 238, id(font_small), gold, TextAlign::TOP_CENTER, "%s", position.c_str());
+
+          it.filled_rectangle(20, 345, 440, 42, panel);
+          it.printf(240, 351, id(font_medium), white, TextAlign::TOP_CENTER, "%s", player_name.c_str());
+          it.printf(240, 394, id(font_tiny), gold, TextAlign::TOP_CENTER, "%s  |  %s  |  %s", position.c_str(), height.c_str(), weight.c_str());
+          it.printf(240, 416, id(font_tiny), muted, TextAlign::TOP_CENTER, "%s", college.c_str());
+          it.printf(240, 438, id(font_tiny), green, TextAlign::TOP_CENTER, "%s  |  PLAYER %d / %d", status.c_str(), idx + 1, id(roster_count));
+          it.printf(80, 459, id(font_medium), gold, TextAlign::TOP_CENTER, "< PREV");
+          it.printf(400, 459, id(font_medium), gold, TextAlign::TOP_CENTER, "NEXT >");
+        } else {
+          it.printf(240, 220, id(font_medium), white, TextAlign::CENTER, "LOADING CHIEFS ROSTER...");
+          it.printf(240, 255, id(font_tiny), gold, TextAlign::CENTER, "CHECK LOCAL ROSTER DATA");
+        }
+        it.printf(240, 477, id(font_tiny), muted, TextAlign::BOTTOM_CENTER, "SWIPE LEFT / RIGHT TO CHANGE PLAYER");
+
+      } else if (id(dashboard_page) == 5) {
         // NEWS-DETAIL: antippen einer Meldung zeigt Headline und Kurzsummary
         it.fill(black);
         it.filled_rectangle(0, 0, 480, 88, blue);

@@ -1,0 +1,33 @@
+﻿# ESPHome build files
+.esphome/
+
+# Python virtual environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Secrets and local configuration
+secrets.yaml
+.env
+.env.*
+!.env.example
+
+# Local backups
+backup/
+
+# Build artifacts
+build/
+dist/
+*.bin
+*.elf
+*.map
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# NFL logos and graphics (not redistributed)
+images/nfl/

@@ -1,0 +1,1015 @@
+
+esphome:
+  name: chiefs-dashboard
+  friendly_name: Chiefs Command Center
+
+esp32:
+  variant: esp32s3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESP_CONSOLE_SECONDARY_NONE: "y"
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+logger:
+  hardware_uart: UART0
+
+api:
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  on_connect:
+    then:
+      - delay: 10s
+      - script.execute: update_nfl_data
+
+time:
+  - platform: sntp
+    id: system_time
+    timezone: Europe/Berlin
+    servers:
+      - 0.de.pool.ntp.org
+      - 1.de.pool.ntp.org
+      - 2.de.pool.ntp.org
+
+http_request:
+  timeout: 8s
+  follow_redirects: true
+  useragent: ChiefsCommandCenter/1.0
+
+# ==========================================
+# LOKALE TEAMLOGOS - KEINE HTTP-DOWNLOADS
+# Lege die 32 Team-PNGs unter images/nfl/ ab.
+# Branding-Dateien liegen unter images/nfl/brand/.
+# ==========================================
+
+image:
+  - file: "images/nfl/ari.png"
+    id: logo_ari
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/atl.png"
+    id: logo_atl
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/bal.png"
+    id: logo_bal
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/buf.png"
+    id: logo_buf
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/car.png"
+    id: logo_car
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/chi.png"
+    id: logo_chi
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/cin.png"
+    id: logo_cin
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/cle.png"
+    id: logo_cle
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/dal.png"
+    id: logo_dal
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/den.png"
+    id: logo_den
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/det.png"
+    id: logo_det
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/gb.png"
+    id: logo_gb
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/hou.png"
+    id: logo_hou
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/ind.png"
+    id: logo_ind
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/jax.png"
+    id: logo_jax
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/kc.png"
+    id: logo_kc
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/lv.png"
+    id: logo_lv
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/lac.png"
+    id: logo_lac
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/lar.png"
+    id: logo_lar
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/mia.png"
+    id: logo_mia
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/min.png"
+    id: logo_min
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/ne.png"
+    id: logo_ne
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/no.png"
+    id: logo_no
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/nyg.png"
+    id: logo_nyg
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/nyj.png"
+    id: logo_nyj
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/phi.png"
+    id: logo_phi
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/pit.png"
+    id: logo_pit
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/sf.png"
+    id: logo_sf
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/sea.png"
+    id: logo_sea
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/tb.png"
+    id: logo_tb
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/ten.png"
+    id: logo_ten
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/wsh.png"
+    id: logo_wsh
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/brand/nfl.png"
+    id: logo_nfl_brand
+    resize: 88x88
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/brand/nfl_germany.png"
+    id: logo_nfl_germany
+    resize: 160x100
+    type: RGB565
+    transparency: alpha_channel
+  - file: "images/nfl/brand/nfl_madrid.png"
+    id: logo_nfl_madrid
+    resize: 160x100
+    type: RGB565
+    transparency: alpha_channel
+
+# ==========================================
+# NFL DATEN
+# ==========================================
+
+globals:
+  - id: nfl_record
+    type: std::string
+    initial_value: '"--"'
+
+  - id: nfl_division
+    type: std::string
+    initial_value: '"AFC WEST"'
+
+  - id: nfl_next_opponent
+    type: std::string
+    initial_value: '"LOADING..."'
+
+  - id: nfl_next_opponent_code
+    type: std::string
+    initial_value: '"NYJ"'
+
+  - id: nfl_live_opponent_code
+    type: std::string
+    initial_value: '"NYJ"'
+
+  - id: dashboard_page
+    type: int
+    initial_value: '0'
+
+  - id: nfl_selected_news
+    type: int
+    initial_value: '0'
+
+  - id: nfl_news_full_1
+    type: std::string
+    initial_value: '"NFL news is loading"'
+  - id: nfl_news_full_2
+    type: std::string
+    initial_value: '"NFL news is loading"'
+  - id: nfl_news_full_3
+    type: std::string
+    initial_value: '"NFL news is loading"'
+  - id: nfl_news_summary_1
+    type: std::string
+    initial_value: '"Open the news page for details."'
+  - id: nfl_news_summary_2
+    type: std::string
+    initial_value: '"Open the news page for details."'
+  - id: nfl_news_summary_3
+    type: std::string
+    initial_value: '"Open the news page for details."'
+
+  - id: display_sleep_active
+    type: bool
+    initial_value: 'false'
+
+  - id: touch_woke_display
+    type: bool
+    initial_value: 'false'
+
+  # Touch-Koordinaten fuer Tap- und Swipe-Erkennung
+  - id: touch_start_x
+    type: int
+    initial_value: '0'
+  - id: touch_start_y
+    type: int
+    initial_value: '0'
+  - id: touch_last_x
+    type: int
+    initial_value: '0'
+  - id: touch_last_y
+    type: int
+    initial_value: '0'
+
+  - id: nfl_news_1
+    type: std::string
+    initial_value: '"NFL NEWS WIRD GELADEN..."'
+  - id: nfl_news_2
+    type: std::string
+    initial_value: '"Warte auf aktuelle Meldungen"'
+  - id: nfl_news_3
+    type: std::string
+    initial_value: '"News werden abgerufen"'
+  - id: nfl_news_updated
+    type: std::string
+    initial_value: '"LIVE FEED"'
+
+  - id: nfl_next_date
+    type: std::string
+    initial_value: '"08.11.2026"'
+
+  - id: nfl_next_kickoff
+    type: std::string
+    initial_value: '"19:00 CET"'
+
+  - id: nfl_next_week
+    type: int
+    initial_value: '0'
+
+  - id: nfl_last_opponent
+    type: std::string
+    initial_value: '"--"'
+
+  - id: nfl_last_score
+    type: std::string
+    initial_value: '"--"'
+
+  - id: nfl_live
+    type: bool
+    initial_value: 'false'
+
+  - id: nfl_live_opponent
+    type: std::string
+    initial_value: '"--"'
+
+  - id: nfl_live_score
+    type: std::string
+    initial_value: '"-- : --"'
+
+  - id: nfl_live_period
+    type: int
+    initial_value: '0'
+
+  - id: nfl_live_clock
+    type: std::string
+    initial_value: '"0:00"'
+
+  - id: nfl_api_ok
+    type: bool
+    initial_value: 'false'
+
+spi:
+  - id: lcd_spi
+    clk_pin: GPIO48
+    mosi_pin: GPIO47
+
+output:
+  - platform: ledc
+    id: backlight_pwm
+    pin: GPIO38
+    frequency: 150Hz
+
+light:
+  - platform: monochromatic
+    id: display_backlight
+    name: "Display Backlight"
+    output: backlight_pwm
+    restore_mode: ALWAYS_ON
+
+# Touchcontroller der ESP32-4848S040-Boardfamilie: GT911 ueber I2C
+i2c:
+  id: touchscreen_bus
+  sda: GPIO19
+  scl:
+    number: GPIO45
+    ignore_strapping_warning: true
+  scan: true
+  frequency: 400kHz
+
+touchscreen:
+  - platform: gt911
+    id: tft_touch
+    i2c_id: touchscreen_bus
+    display: tft_display
+    on_touch:
+      then:
+        - lambda: |-
+            // Jeder Touch weckt das Display, auch bei manuellem Ausschalten.
+            if (id(display_sleep_active)) {
+              id(display_sleep_active) = false;
+              id(touch_woke_display) = true;
+              id(display_backlight).turn_on();
+              id(tft_display).update();
+            }
+            id(touch_start_x) = touch.x;
+            id(touch_start_y) = touch.y;
+            id(touch_last_x) = touch.x;
+            id(touch_last_y) = touch.y;
+    on_update:
+      then:
+        - lambda: |-
+            for (auto point : touches) {
+              if (point.state <= 2) {
+                id(touch_last_x) = point.x;
+                id(touch_last_y) = point.y;
+              } else if (point.state >= 4) {
+                id(touch_last_x) = point.x;
+                id(touch_last_y) = point.y;
+              }
+            }
+    on_release:
+      then:
+        - lambda: |-
+            // Der Touch, der das Display gerade aufgeweckt hat, soll keine
+            // Navigation oder Auswahl ausloesen.
+            if (id(touch_woke_display)) {
+              id(touch_woke_display) = false;
+              return;
+            }
+
+            int delta_x = id(touch_last_x) - id(touch_start_x);
+            int delta_y = id(touch_last_y) - id(touch_start_y);
+
+            // Vertikal von oben nach unten wischen: Display manuell ausschalten.
+            if (delta_y >= 90 && abs(delta_y) > abs(delta_x)) {
+              id(display_sleep_active) = true;
+              id(display_backlight).turn_off();
+              return;
+            }
+
+            // Horizontal wischen: durch die vier Hauptseiten navigieren.
+            if (abs(delta_x) >= 80 && abs(delta_x) > abs(delta_y)) {
+              if (id(dashboard_page) == 4) {
+                id(dashboard_page) = 1;
+              } else if (delta_x < 0) {
+                id(dashboard_page) = (id(dashboard_page) + 1) % 4;
+              } else {
+                id(dashboard_page) = (id(dashboard_page) + 3) % 4;
+              }
+              id(tft_display).update();
+              return;
+            }
+
+            // Tap auf eine News-Karte oeffnet die Detailansicht.
+            if (id(dashboard_page) == 1) {
+              int x = id(touch_last_x);
+              int y = id(touch_last_y);
+              if (x >= 20 && x <= 460 && y >= 132 && y <= 218) {
+                id(nfl_selected_news) = 0;
+                id(dashboard_page) = 4;
+              } else if (x >= 20 && x <= 460 && y >= 230 && y <= 308) {
+                id(nfl_selected_news) = 1;
+                id(dashboard_page) = 4;
+              } else if (x >= 20 && x <= 460 && y >= 320 && y <= 398) {
+                id(nfl_selected_news) = 2;
+                id(dashboard_page) = 4;
+              }
+            } else if (id(dashboard_page) == 4) {
+              id(dashboard_page) = 1;
+            }
+            id(tft_display).update();
+
+font:
+  - file: "gfonts://Roboto"
+    id: font_large
+    size: 32
+
+  - file: "gfonts://Roboto"
+    id: font_medium
+    size: 20
+
+  - file: "gfonts://Roboto"
+    id: font_clock
+    size: 64
+
+  - file: "gfonts://Roboto"
+    id: font_small
+    size: 16
+
+  - file: "gfonts://Roboto"
+    id: font_tiny
+    size: 13
+
+# ==========================================
+# NFL API ABFRAGE
+# ==========================================
+
+script:
+  - id: update_nfl_data
+    mode: single
+    then:
+
+      # TEAMÜBERSICHT
+      - http_request.get:
+          url: https://nfl-fan-app.de/api/team-overview?team=KC
+          capture_response: true
+          max_response_buffer_size: 16384
+
+          on_response:
+            then:
+              - if:
+                  condition:
+                    lambda: return response->status_code == 200;
+                  then:
+                    - lambda: |-
+                        json::parse_json(body, [](JsonObject root) -> bool {
+                          if (!root["record"].is<const char*>()) {
+                            return false;
+                          }
+
+                          id(nfl_record) =
+                            root["record"].as<std::string>();
+
+                          if (root["standingSummary"].is<const char*>()) {
+                            id(nfl_division) =
+                              root["standingSummary"].as<std::string>();
+                          }
+
+                          JsonObject next = root["next"];
+
+                          if (!next.isNull()) {
+                            if (next["opponentName"].is<const char*>()) {
+                              id(nfl_next_opponent) =
+                                next["opponentName"].as<std::string>();
+                            }
+
+                            if (next["opponent"].is<const char*>()) {
+                              id(nfl_next_opponent_code) =
+                                next["opponent"].as<std::string>();
+                            }
+
+                            if (next["week"].is<int>()) {
+                              id(nfl_next_week) =
+                                next["week"].as<int>();
+                            }
+
+                            if (next["date"].is<const char*>()) {
+                              std::string date = next["date"].as<std::string>();
+                              if (date.size() >= 10) {
+                                id(nfl_next_date) = date.substr(8, 2) + "." +
+                                  date.substr(5, 2) + "." + date.substr(0, 4);
+                              }
+                              if (date.size() >= 16) {
+                                int hour = atoi(date.substr(11, 2).c_str());
+                                int minute = atoi(date.substr(14, 2).c_str());
+                                // API-Zeit ist UTC. Die anstehende Partie liegt im Winter (CET = UTC+1).
+                                hour = (hour + 1) % 24;
+                                char time_buffer[16];
+                                snprintf(time_buffer, sizeof(time_buffer), "%02d:%02d CET", hour, minute);
+                                id(nfl_next_kickoff) = time_buffer;
+                              }
+                            }
+                          }
+
+                          JsonObject last = root["last"];
+
+                          if (!last.isNull()) {
+                            if (last["opponentName"].is<const char*>()) {
+                              id(nfl_last_opponent) =
+                                last["opponentName"].as<std::string>();
+                            }
+
+                            if (last["teamScore"].is<int>() &&
+                                last["opponentScore"].is<int>()) {
+                              id(nfl_last_score) =
+                                std::to_string(
+                                  last["teamScore"].as<int>())
+                                + " - " +
+                                std::to_string(
+                                  last["opponentScore"].as<int>());
+                            }
+                          }
+
+                          id(nfl_api_ok) = true;
+                          return true;
+                        });
+
+                  else:
+                    - logger.log:
+                        format: "Chiefs API HTTP-Fehler: %d"
+                        args:
+                          - response->status_code
+
+          on_error:
+            then:
+              - logger.log: "Chiefs Team API nicht erreichbar"
+
+      # LIVE SPIELE
+      - http_request.get:
+          url: https://nfl-fan-app.de/api/game-situation
+          capture_response: true
+          max_response_buffer_size: 32768
+
+          on_response:
+            then:
+              - if:
+                  condition:
+                    lambda: return response->status_code == 200;
+                  then:
+                    - lambda: |-
+                        json::parse_json(body, [](JsonObject root) -> bool {
+                          JsonArray games = root["games"].as<JsonArray>();
+
+                          if (games.isNull()) {
+                            return false;
+                          }
+
+                          bool found_live = false;
+
+                          for (JsonObject game : games) {
+                            JsonObject home = game["home"];
+                            JsonObject away = game["away"];
+
+                            std::string home_code =
+                              home["code"].as<std::string>();
+
+                            std::string away_code =
+                              away["code"].as<std::string>();
+
+                            if (home_code != "KC" && away_code != "KC") {
+                              continue;
+                            }
+
+                            std::string state =
+                              game["state"].as<std::string>();
+
+                            if (state == "in" || state == "live") {
+                              bool chiefs_home = (home_code == "KC");
+
+                              std::string opponent =
+                                chiefs_home
+                                ? away["name"].as<std::string>()
+                                : home["name"].as<std::string>();
+
+                              int chiefs_score =
+                                chiefs_home
+                                ? home["score"].as<int>()
+                                : away["score"].as<int>();
+
+                              int opponent_score =
+                                chiefs_home
+                                ? away["score"].as<int>()
+                                : home["score"].as<int>();
+
+                              id(nfl_live_opponent) = opponent;
+
+                              id(nfl_live_opponent_code) =
+                                chiefs_home ? away_code : home_code;
+
+                              id(nfl_live_score) =
+                                std::to_string(chiefs_score)
+                                + " : " +
+                                std::to_string(opponent_score);
+
+                              id(nfl_live_period) =
+                                game["period"].as<int>();
+
+                              id(nfl_live_clock) =
+                                game["clock"].as<std::string>();
+
+                              found_live = true;
+                              break;
+                            }
+                          }
+
+                          id(nfl_live) = found_live;
+                          return true;
+                        });
+
+                  else:
+                    - logger.log:
+                        format: "Game API HTTP-Fehler: %d"
+                        args:
+                          - response->status_code
+
+          on_error:
+            then:
+              - logger.log: "Game Situation API nicht erreichbar"
+
+      # NFL NEWS - kleiner JSON-Feed, keine grossen Dateien
+      - http_request.get:
+          url: https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=3
+          capture_response: true
+          max_response_buffer_size: 49152
+          on_response:
+            then:
+              - if:
+                  condition:
+                    lambda: return response->status_code == 200;
+                  then:
+                    - lambda: |-
+                        json::parse_json(body, [](JsonObject root) -> bool {
+                          JsonArray articles = root["articles"].as<JsonArray>();
+                          if (articles.isNull() || articles.size() == 0) return false;
+                          int found = 0;
+                          for (JsonObject article : articles) {
+                            if (!article["headline"].is<const char*>()) continue;
+                            std::string full_headline = article["headline"].as<std::string>();
+                            std::string headline = full_headline;
+                            if (headline.size() > 44) headline = headline.substr(0, 41) + "...";
+                            std::string summary = "Open the news page for details.";
+                            if (article["description"].is<const char*>()) summary = article["description"].as<std::string>();
+                            else if (article["description"].is<JsonObject>() && article["description"]["text"].is<const char*>()) summary = article["description"]["text"].as<std::string>();
+                            if (summary.size() > 350) summary = summary.substr(0, 347) + "...";
+                            if (found == 0) { id(nfl_news_1) = headline; id(nfl_news_full_1) = full_headline; id(nfl_news_summary_1) = summary; }
+                            else if (found == 1) { id(nfl_news_2) = headline; id(nfl_news_full_2) = full_headline; id(nfl_news_summary_2) = summary; }
+                            else if (found == 2) { id(nfl_news_3) = headline; id(nfl_news_full_3) = full_headline; id(nfl_news_summary_3) = summary; }
+                            found++;
+                            if (found >= 3) break;
+                          }
+                          return found > 0;
+                        });
+                  else:
+                    - logger.log:
+                        format: "NFL News HTTP-Fehler: %d"
+                        args:
+                          - response->status_code
+          on_error:
+            then:
+              - logger.log: "NFL News API nicht erreichbar"
+
+# ==========================================
+# AUTOMATISCHE AKTUALISIERUNG
+# ==========================================
+
+interval:
+  - interval: 5min
+    then:
+      - if:
+          condition:
+            wifi.connected:
+          then:
+            - script.execute: update_nfl_data
+
+  # Hauptseiten werden jetzt manuell per horizontalem Swipe gewechselt.
+
+  # Nightmode 23:00-07:00 plus manueller Display-Schlaf per Swipe-down. Jeder Touch weckt.
+  - interval: 1min
+    then:
+      - lambda: |-
+          auto now = id(system_time).now();
+          if (!now.is_valid()) return;
+          if (now.hour >= 23 || now.hour < 7) {
+            if (!id(display_sleep_active)) {
+              id(display_sleep_active) = true;
+              id(display_backlight).turn_off();
+            }
+          }
+          // Nach 07:00 bleibt ein bereits ausgeschaltetes Display aus,
+          // bis ein Touch es aufweckt.
+
+# ==========================================
+# DISPLAY
+# ==========================================
+
+display:
+  - platform: st7701s
+    id: tft_display
+    update_interval: 60s
+    auto_clear_enabled: false
+
+    spi_id: lcd_spi
+    spi_mode: MODE3
+    data_rate: 2MHz
+    color_order: RGB
+    invert_colors: false
+
+    dimensions:
+      width: 480
+      height: 480
+
+    cs_pin: GPIO39
+    de_pin: GPIO18
+    hsync_pin: GPIO16
+    vsync_pin: GPIO17
+    pclk_pin: GPIO21
+    pclk_frequency: 12MHz
+    pclk_inverted: false
+
+    hsync_pulse_width: 8
+    hsync_front_porch: 10
+    hsync_back_porch: 20
+
+    vsync_pulse_width: 8
+    vsync_front_porch: 10
+    vsync_back_porch: 20
+
+    init_sequence:
+      - 1
+      - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10]
+      - [0xCD, 0x00]
+
+    data_pins:
+      red: [11, 12, 13, 14, 0]
+      green: [8, 20, 3, 46, 9, 10]
+      blue: [4, 5, 6, 7, 15]
+
+    lambda: |-
+      Color chiefs_red(110, 0, 20);
+      Color dark_red(65, 0, 12);
+      Color gold(255, 200, 50);
+      Color white(255, 255, 255);
+      Color panel(35, 15, 20);
+      Color muted(190, 170, 170);
+      Color green(50, 220, 110);
+      Color black(12, 12, 18);
+      Color germany_gold(255, 205, 0);
+      Color germany_red(221, 0, 0);
+      Color madrid_red(170, 20, 45);
+      Color spain_gold(255, 190, 0);
+      Color blue(20, 60, 130);
+
+      auto draw_team_logo = [&](int x, int y, const std::string &code) {
+        if (code == "ARI") it.image(x,y,id(logo_ari));
+        else if (code == "ATL") it.image(x,y,id(logo_atl));
+        else if (code == "BAL") it.image(x,y,id(logo_bal));
+        else if (code == "BUF") it.image(x,y,id(logo_buf));
+        else if (code == "CAR") it.image(x,y,id(logo_car));
+        else if (code == "CHI") it.image(x,y,id(logo_chi));
+        else if (code == "CIN") it.image(x,y,id(logo_cin));
+        else if (code == "CLE") it.image(x,y,id(logo_cle));
+        else if (code == "DAL") it.image(x,y,id(logo_dal));
+        else if (code == "DEN") it.image(x,y,id(logo_den));
+        else if (code == "DET") it.image(x,y,id(logo_det));
+        else if (code == "GB") it.image(x,y,id(logo_gb));
+        else if (code == "HOU") it.image(x,y,id(logo_hou));
+        else if (code == "IND") it.image(x,y,id(logo_ind));
+        else if (code == "JAX" || code == "JAC") it.image(x,y,id(logo_jax));
+        else if (code == "KC") it.image(x,y,id(logo_kc));
+        else if (code == "LV") it.image(x,y,id(logo_lv));
+        else if (code == "LAC") it.image(x,y,id(logo_lac));
+        else if (code == "LA" || code == "LAR") it.image(x,y,id(logo_lar));
+        else if (code == "MIA") it.image(x,y,id(logo_mia));
+        else if (code == "MIN") it.image(x,y,id(logo_min));
+        else if (code == "NE") it.image(x,y,id(logo_ne));
+        else if (code == "NO") it.image(x,y,id(logo_no));
+        else if (code == "NYG") it.image(x,y,id(logo_nyg));
+        else if (code == "NYJ") it.image(x,y,id(logo_nyj));
+        else if (code == "PHI") it.image(x,y,id(logo_phi));
+        else if (code == "PIT") it.image(x,y,id(logo_pit));
+        else if (code == "SF") it.image(x,y,id(logo_sf));
+        else if (code == "SEA") it.image(x,y,id(logo_sea));
+        else if (code == "TB") it.image(x,y,id(logo_tb));
+        else if (code == "TEN") it.image(x,y,id(logo_ten));
+        else if (code == "WSH") it.image(x,y,id(logo_wsh));
+      };
+
+      auto now = id(system_time).now();
+      if (id(dashboard_page) == 0) {
+        // SEITE 1: CHIEFS COMMAND CENTER
+        it.fill(chiefs_red);
+        it.filled_rectangle(0, 0, 480, 95, dark_red);
+        it.line(20, 95, 460, 95, gold);
+        it.printf(240, 8, id(font_medium), gold, TextAlign::TOP_CENTER, "KANSAS CITY");
+        it.printf(240, 34, id(font_large), white, TextAlign::TOP_CENTER, "CHIEFS");
+        it.printf(240, 72, id(font_tiny), gold, TextAlign::TOP_CENTER, "COMMAND CENTER");
+
+        it.filled_rectangle(20, 105, 440, 95, panel);
+        if (now.is_valid()) {
+          it.strftime(240, 108, id(font_clock), white, TextAlign::TOP_CENTER, "%H:%M", now);
+          it.strftime(240, 181, id(font_tiny), gold, TextAlign::TOP_CENTER, "%A, %d.%m.%Y", now);
+        } else {
+          it.printf(240, 125, id(font_large), white, TextAlign::TOP_CENTER, "--:--");
+          it.printf(240, 175, id(font_tiny), gold, TextAlign::TOP_CENTER, "SYNCING TIME...");
+        }
+
+        it.filled_rectangle(20, 210, 440, 145, panel);
+        if (id(nfl_live)) {
+          it.printf(240, 216, id(font_medium), green, TextAlign::TOP_CENTER, "CHIEFS LIVE");
+          draw_team_logo(65, 250, "KC");
+          draw_team_logo(327, 250, id(nfl_live_opponent_code));
+          it.printf(240, 250, id(font_large), gold, TextAlign::TOP_CENTER, "%s", id(nfl_live_score).c_str());
+          it.printf(240, 291, id(font_small), white, TextAlign::TOP_CENTER, "VS %s", id(nfl_live_opponent).c_str());
+          it.printf(240, 324, id(font_tiny), gold, TextAlign::TOP_CENTER, "Q%d  %s", id(nfl_live_period), id(nfl_live_clock).c_str());
+        } else {
+          it.printf(240, 215, id(font_medium), gold, TextAlign::TOP_CENTER, "NEXT GAME  |  WEEK %d", id(nfl_next_week));
+          draw_team_logo(65, 244, "KC");
+          draw_team_logo(327, 244, id(nfl_next_opponent_code));
+          it.printf(240, 246, id(font_medium), white, TextAlign::TOP_CENTER, "CHIEFS");
+          it.printf(240, 271, id(font_small), gold, TextAlign::TOP_CENTER, "VS");
+          it.printf(240, 292, id(font_small), white, TextAlign::TOP_CENTER, "%s", id(nfl_next_opponent).c_str());
+          it.printf(240, 335, id(font_tiny), gold, TextAlign::BOTTOM_CENTER, "%s  |  %s", id(nfl_next_date).c_str(), id(nfl_next_kickoff).c_str());
+        }
+
+        it.filled_rectangle(20, 365, 215, 75, panel);
+        it.printf(127, 370, id(font_small), gold, TextAlign::TOP_CENTER, "SEASON RECORD");
+        it.printf(127, 393, id(font_large), white, TextAlign::TOP_CENTER, "%s", id(nfl_record).c_str());
+        it.filled_rectangle(245, 365, 215, 75, panel);
+        it.printf(352, 370, id(font_small), gold, TextAlign::TOP_CENTER, "LAST GAME");
+        it.printf(352, 391, id(font_medium), white, TextAlign::TOP_CENTER, "%s", id(nfl_last_score).c_str());
+        it.printf(352, 416, id(font_tiny), muted, TextAlign::TOP_CENTER, "%s", id(nfl_last_opponent).c_str());
+        it.printf(240, 447, id(font_tiny), id(nfl_api_ok) ? gold : white, TextAlign::TOP_CENTER,
+                  "%s", id(nfl_api_ok) ? id(nfl_division).c_str() : "CONNECTING TO NFL DATA...");
+
+      } else if (id(dashboard_page) == 1) {
+        // SEITE 2: NFL NEWS - Headlines aus dem ESPN NFL News Feed
+        it.fill(black);
+        it.filled_rectangle(0, 0, 480, 92, blue);
+        it.image(22, 10, id(logo_nfl_brand));
+        it.printf(260, 16, id(font_large), white, TextAlign::TOP_CENTER, "NFL NEWS");
+        it.printf(260, 58, id(font_tiny), gold, TextAlign::TOP_CENTER, "TRADES  |  SIGNINGS  |  LEAGUE");
+        if (now.is_valid()) it.strftime(240, 104, id(font_tiny), muted, TextAlign::TOP_CENTER, "%d.%m.%Y  %H:%M", now);
+        it.filled_rectangle(20, 132, 440, 86, panel);
+        it.printf(38, 144, id(font_tiny), gold, TextAlign::TOP_LEFT, "TOP STORY");
+        it.printf(38, 164, id(font_small), white, TextAlign::TOP_LEFT, "%s", id(nfl_news_1).c_str());
+        it.filled_rectangle(20, 230, 440, 78, panel);
+        it.printf(38, 242, id(font_tiny), gold, TextAlign::TOP_LEFT, "AROUND THE LEAGUE");
+        it.printf(38, 260, id(font_small), white, TextAlign::TOP_LEFT, "%s", id(nfl_news_2).c_str());
+        it.filled_rectangle(20, 320, 440, 78, panel);
+        it.printf(38, 332, id(font_tiny), gold, TextAlign::TOP_LEFT, "MORE NFL");
+        it.printf(38, 350, id(font_small), white, TextAlign::TOP_LEFT, "%s", id(nfl_news_3).c_str());
+        it.line(20, 420, 460, 420, blue);
+        it.printf(240, 423, id(font_tiny), muted, TextAlign::TOP_CENTER, "TAP A STORY FOR FULL DETAILS");
+        it.printf(240, 440, id(font_tiny), gold, TextAlign::TOP_CENTER, "SWIPE LEFT / RIGHT TO NAVIGATE");
+        it.printf(240, 458, id(font_tiny), muted, TextAlign::TOP_CENTER, "CHIEFS COMMAND CENTER");
+
+      } else if (id(dashboard_page) == 2) {
+        // SEITE 3: NFL MUNICH GAME - NEW ENGLAND PATRIOTS VS DETROIT LIONS
+        // MUNICH: aufgewertetes International-Design im Stil der Madrid-Seite
+        it.fill(black);
+        it.filled_rectangle(0, 0, 480, 480, black);
+        it.filled_rectangle(0, 0, 480, 18, germany_gold);
+        it.filled_rectangle(0, 18, 480, 10, germany_red);
+        it.filled_rectangle(0, 452, 480, 10, germany_red);
+        it.filled_rectangle(0, 462, 480, 18, germany_gold);
+        it.image(160, 34, id(logo_nfl_germany));
+        it.image(210, 112, id(logo_nfl_brand));
+        it.printf(240, 205, id(font_large), white, TextAlign::TOP_CENTER, "MUNICH GAME");
+        it.printf(240, 246, id(font_small), germany_gold, TextAlign::TOP_CENTER, "WEEK 10  |  NFL INTERNATIONAL");
+        it.image(65, 270, id(logo_ne));
+        it.image(327, 270, id(logo_det));
+        it.printf(240, 282, id(font_small), white, TextAlign::TOP_CENTER, "PATRIOTS");
+        it.printf(240, 308, id(font_tiny), germany_gold, TextAlign::TOP_CENTER, "VS");
+        it.printf(240, 327, id(font_small), white, TextAlign::TOP_CENTER, "LIONS");
+        it.printf(240, 354, id(font_small), germany_gold, TextAlign::TOP_CENTER, "15. NOVEMBER 2026  |  15:30 CET");
+        // Zwei hervorgehobene Franchise-Statistik-Karten
+        it.filled_rectangle(18, 382, 214, 52, Color(32, 32, 32));
+        it.filled_rectangle(248, 382, 214, 52, Color(32, 32, 32));
+        it.printf(125, 387, id(font_tiny), germany_gold, TextAlign::TOP_CENTER, "PATRIOTS");
+        it.printf(125, 406, id(font_small), white, TextAlign::TOP_CENTER, "6x SUPER BOWL CHAMPS");
+        it.printf(355, 387, id(font_tiny), germany_gold, TextAlign::TOP_CENTER, "LIONS");
+        it.printf(355, 406, id(font_small), white, TextAlign::TOP_CENTER, "4x NFL CHAMPIONS*");
+        it.printf(240, 438, id(font_tiny), white, TextAlign::TOP_CENTER, "DO YOUR JOB.  |  ONE PRIDE.");
+        it.printf(240, 466, id(font_tiny), muted, TextAlign::CENTER, "FC BAYERN MUNICH STADIUM  |  GERMANY");
+
+      } else if (id(dashboard_page) == 4) {
+        // NEWS-DETAIL: antippen einer Meldung zeigt Headline und Kurzsummary
+        it.fill(black);
+        it.filled_rectangle(0, 0, 480, 88, blue);
+        it.image(22, 10, id(logo_nfl_brand));
+        it.printf(260, 18, id(font_large), white, TextAlign::TOP_CENTER, "NFL NEWS DETAIL");
+        it.printf(240, 62, id(font_tiny), gold, TextAlign::TOP_CENTER, "TAP ANYWHERE TO GO BACK");
+        const std::string *headline = &id(nfl_news_full_1);
+        const std::string *summary = &id(nfl_news_summary_1);
+        if (id(nfl_selected_news) == 1) { headline = &id(nfl_news_full_2); summary = &id(nfl_news_summary_2); }
+        else if (id(nfl_selected_news) == 2) { headline = &id(nfl_news_full_3); summary = &id(nfl_news_summary_3); }
+        it.filled_rectangle(20, 105, 440, 135, panel);
+        std::string h = *headline;
+        for (int row = 0; row < 4; row++) {
+          if (h.empty()) break;
+          size_t count = h.size() > 34 ? 34 : h.size();
+          std::string line = h.substr(0, count);
+          h.erase(0, count);
+          it.printf(38, 118 + row * 25, id(font_small), gold, TextAlign::TOP_LEFT, "%s", line.c_str());
+        }
+        it.line(24, 250, 456, 250, blue);
+        it.printf(32, 266, id(font_medium), white, TextAlign::TOP_LEFT, "SUMMARY");
+        std::string s = *summary;
+        for (int row = 0; row < 6; row++) {
+          if (s.empty()) break;
+          size_t count = s.size() > 48 ? 48 : s.size();
+          std::string line = s.substr(0, count);
+          s.erase(0, count);
+          it.printf(32, 302 + row * 23, id(font_tiny), white, TextAlign::TOP_LEFT, "%s", line.c_str());
+        }
+        it.printf(240, 452, id(font_tiny), gold, TextAlign::TOP_CENTER, "TAP TO RETURN  |  SWIPE FOR PAGES");
+
+      } else {
+        // SEITE 4: MADRID INTERNATIONAL GAME - BENGALS VS FALCONS
+        it.fill(madrid_red);
+        it.filled_rectangle(0, 0, 480, 480, madrid_red);
+        it.filled_rectangle(0, 0, 480, 20, spain_gold);
+        it.filled_rectangle(0, 460, 480, 20, spain_gold);
+        it.image(160, 34, id(logo_nfl_madrid));
+        it.image(210, 124, id(logo_nfl_brand));
+        it.printf(240, 215, id(font_large), white, TextAlign::TOP_CENTER, "MADRID GAME");
+        it.printf(240, 256, id(font_small), spain_gold, TextAlign::TOP_CENTER, "WEEK 9  |  NFL INTERNATIONAL");
+        it.image(65, 280, id(logo_cin));
+        it.image(327, 280, id(logo_atl));
+        it.printf(240, 293, id(font_small), white, TextAlign::TOP_CENTER, "BENGALS");
+        it.printf(240, 319, id(font_tiny), spain_gold, TextAlign::TOP_CENTER, "VS");
+        it.printf(240, 338, id(font_small), white, TextAlign::TOP_CENTER, "FALCONS");
+        it.printf(240, 366, id(font_small), spain_gold, TextAlign::TOP_CENTER, "08. NOVEMBER 2026  |  15:30 CET");
+        // MATCHUP FACTS: bisherige Super-Bowl-Teilnahmen
+        it.filled_rectangle(18, 391, 214, 43, Color(0x8E1420));
+        it.filled_rectangle(248, 391, 214, 43, Color(0x8E1420));
+        it.printf(125, 396, id(font_tiny), spain_gold, TextAlign::TOP_CENTER, "BENGALS");
+        it.printf(125, 414, id(font_small), white, TextAlign::TOP_CENTER, "3 SUPER BOWL APPS");
+        it.printf(355, 396, id(font_tiny), spain_gold, TextAlign::TOP_CENTER, "FALCONS");
+        it.printf(355, 414, id(font_small), white, TextAlign::TOP_CENTER, "2 SUPER BOWL APPS");
+        it.printf(240, 440, id(font_small), white, TextAlign::TOP_CENTER, "WHO DEY!  |  RISE UP!");
+        it.printf(240, 462, id(font_tiny), white, TextAlign::TOP_CENTER, "SANTIAGO BERNABEU  |  MADRID");
+      }
+
